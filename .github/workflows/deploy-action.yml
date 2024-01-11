@@ -21,8 +21,21 @@ jobs:
       - name: Analyze
         run: echo "said"
 
+  authenticate:
+     runs-on:  self-hosted
+     steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: ${{ env.GIT_DEPTH }}
+
+      - name: Auth to openshift
+        run: |
+             oc login --token=sha256~kNf2U27l-tgxpP6Po9BMGbg3ZpRqaQT-q27eees3aSY --server=https://api.sandbox-m4.g2pi.p1.openshiftapps.com:6443   
+
   build:
     runs-on: self-hosted
+    needs: authenticate
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -61,6 +74,7 @@ jobs:
 
   deploy:
     runs-on: self-hosted
+    needs: authenticate
     steps:
       - name: Check out code
         uses: actions/checkout@v2

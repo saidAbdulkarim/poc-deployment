@@ -1,0 +1,24 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    prometheus.io/scrape: "true"
+    prometheus.io/path: /metrics
+    prometheus.io/port: "9779"
+  labels:
+    app: poc-deployment
+    provider: jkube
+    version: 1.0.0-SNAPSHOT
+    group: com.technoverse
+  name: poc-deployment
+spec:
+  ports:
+  - name: http
+    port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: poc-deployment
+    provider: jkube
+    group: com.technoverse

@@ -1,0 +1,62 @@
+---
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  labels:
+    app: poc-deployment
+    provider: jkube
+    version: 1.0.0-SNAPSHOT
+    group: com.technoverse
+  name: poc-deployment
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  selector:
+    app: poc-deployment
+    provider: jkube
+    group: com.technoverse
+  strategy:
+    rollingParams:
+      timeoutSeconds: 3600
+    type: Rolling
+  template:
+    metadata:
+      labels:
+        test: said
+        app: poc-deployment
+        provider: jkube
+        version: 1.0.0-SNAPSHOT
+        group: com.technoverse
+      name: poc-deployment
+    spec:
+      containers:
+      - env:
+        - name: KUBERNETES_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        image: poc-deployment:latest
+        imagePullPolicy: IfNotPresent
+        name: quarkus
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        - containerPort: 9779
+          name: prometheus
+          protocol: TCP
+        - containerPort: 8778
+          name: jolokia
+          protocol: TCP
+        securityContext:
+          privileged: false
+  triggers:
+  - type: ConfigChange
+  - imageChangeParams:
+      automatic: true
+      containerNames:
+      - quarkus
+      from:
+        kind: ImageStreamTag
+        name: poc-deployment:latest
+    type: ImageChange

@@ -1,0 +1,15 @@
+---
+apiVersion: v1
+kind: List
+items:
+- apiVersion: image.openshift.io/v1
+  kind: ImageStream
+  metadata:
+    name: poc-deployment
+  spec:
+    tags:
+    - from:
+        kind: ImageStreamImage
+        name: poc-deployment@sha256:2387ec1cb4d1abae5a2a745d5a66f49b86a48a16d5bc5e56b85fecf62ab5b6ce
+        namespace: said378-dev
+      name: latest

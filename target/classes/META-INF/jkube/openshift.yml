@@ -1,0 +1,103 @@
+---
+apiVersion: v1
+kind: List
+items:
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      prometheus.io/scrape: "true"
+      prometheus.io/path: /metrics
+      prometheus.io/port: "9779"
+    labels:
+      app: poc-deployment
+      provider: jkube
+      version: 1.0.0-SNAPSHOT
+      group: com.technoverse
+    name: poc-deployment
+  spec:
+    ports:
+    - name: http
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+    selector:
+      app: poc-deployment
+      provider: jkube
+      group: com.technoverse
+- apiVersion: apps.openshift.io/v1
+  kind: DeploymentConfig
+  metadata:
+    labels:
+      app: poc-deployment
+      provider: jkube
+      version: 1.0.0-SNAPSHOT
+      group: com.technoverse
+    name: poc-deployment
+  spec:
+    replicas: 1
+    revisionHistoryLimit: 2
+    selector:
+      app: poc-deployment
+      provider: jkube
+      group: com.technoverse
+    strategy:
+      rollingParams:
+        timeoutSeconds: 3600
+      type: Rolling
+    template:
+      metadata:
+        labels:
+          test: said
+          app: poc-deployment
+          provider: jkube
+          version: 1.0.0-SNAPSHOT
+          group: com.technoverse
+        name: poc-deployment
+      spec:
+        containers:
+        - env:
+          - name: KUBERNETES_NAMESPACE
+            valueFrom:
+              fieldRef:
+                fieldPath: metadata.namespace
+          image: poc-deployment:latest
+          imagePullPolicy: IfNotPresent
+          name: quarkus
+          ports:
+          - containerPort: 8080
+            name: http
+            protocol: TCP
+          - containerPort: 9779
+            name: prometheus
+            protocol: TCP
+          - containerPort: 8778
+            name: jolokia
+            protocol: TCP
+          securityContext:
+            privileged: false
+    triggers:
+    - type: ConfigChange
+    - imageChangeParams:
+        automatic: true
+        containerNames:
+        - quarkus
+        from:
+          kind: ImageStreamTag
+          name: poc-deployment:latest
+      type: ImageChange
+- apiVersion: route.openshift.io/v1
+  kind: Route
+  metadata:
+    labels:
+      app: poc-deployment
+      provider: jkube
+      version: 1.0.0-SNAPSHOT
+      group: com.technoverse
+    name: poc-deployment
+  spec:
+    port:
+      targetPort: 8080
+    to:
+      kind: Service
+      name: poc-deployment

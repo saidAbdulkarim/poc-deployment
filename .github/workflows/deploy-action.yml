@@ -11,7 +11,7 @@ env:
 
 jobs:
   analyze:
-    runs-on: ubuntu-latest
+    runs-on:  self-hosted
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -22,7 +22,7 @@ jobs:
         run: echo "said"
 
   build:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -60,7 +60,7 @@ jobs:
           fi
 
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
     steps:
       - name: Check out code
         uses: actions/checkout@v2

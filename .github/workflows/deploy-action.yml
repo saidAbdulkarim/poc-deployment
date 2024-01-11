@@ -19,7 +19,7 @@ jobs:
           fetch-depth: ${{ env.GIT_DEPTH }}
     
       - name: Analyze
-        run: # Add analyze steps here
+        run: echo "said"
 
   build:
     runs-on: ubuntu-latest

@@ -31,7 +31,7 @@ jobs:
 
       - name: Auth to openshift
         run: |
-             oc login --token=${{secrets.OPENSHIFT_TOKEN}} --server=${{vars.OPENSHIFT_URL}}
+             oc login --token=sha256~_mDhvxY4kyVvNPDbtmDr2UwBJFg_pcyK_HIMFRkcWVQ --server=${{vars.OPENSHIFT_URL}}
 
   build:
     runs-on: self-hosted

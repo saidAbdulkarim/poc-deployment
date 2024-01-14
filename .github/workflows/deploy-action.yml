@@ -19,7 +19,7 @@ jobs:
           fetch-depth: ${{ env.GIT_DEPTH }}
     
       - name: Analyze
-        run: echo ${{vars.OPENSHIFT_SERVER}} 
+        run: echo ${{vars.OPENSHIFT_URL}} 
 
   authenticate:
      runs-on:  self-hosted

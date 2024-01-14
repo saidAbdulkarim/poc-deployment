@@ -19,7 +19,7 @@ jobs:
           fetch-depth: ${{ env.GIT_DEPTH }}
     
       - name: Analyze
-        run: echo ${{context.DEMO}} 
+        run: echo ${{vars.DEMO}} 
 
   authenticate:
      runs-on:  self-hosted

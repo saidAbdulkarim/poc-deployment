@@ -10,22 +10,8 @@ env:
   GIT_CLEAN_FLAGS: none
 
 jobs:
-  analyze:
-    runs-on:  self-hosted
-    steps:
-      - name: Check out code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: ${{ env.GIT_DEPTH }}
-    
-      - name: Analyze
-        run: echo ${{ secrets.DEMO }} 
-
   authenticate:
      runs-on:  self-hosted
-     env:
-      OPENSHIFT_TOKEN: ${{secrets.TOKEN}}
-      OPENSHIFT_SERVER: ${{secrets.URL}}
      steps:
       - name: Check out code
         uses: actions/checkout@v4

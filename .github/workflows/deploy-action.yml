@@ -24,8 +24,8 @@ jobs:
   authenticate:
      runs-on:  self-hosted
      env:
-      OPENSHIFT_TOKEN: ${{ secrets.OPENSHIFT_TOKEN }}
-      OPENSHIFT_SERVER: ${{ secrets.OPENSHIFT_SERVER }}
+      OPENSHIFT_TOKEN: sha256~pVB0sKEe8Kr48yQy_tgIUVhzRq7zOX2FrvFzOVVFbJo
+      OPENSHIFT_SERVER: https://api.sandbox-m4.g2pi.p1.openshiftapps.com:6443
      steps:
       - name: Check out code
         uses: actions/checkout@v4

@@ -34,7 +34,7 @@ jobs:
 
       - name: Auth to openshift
         run: |
-             oc login --token=${{ env.OPENSHIFT_TOKEN }} --server=${{ env.OPENSHIFT_SERVER }}
+             oc login --token=${{ secrets.TOKEN }} --server=${{ secrets.URL }}
 
   build:
     runs-on: self-hosted
@@ -77,7 +77,7 @@ jobs:
 
   deploy:
     runs-on: self-hosted
-    needs: authenticate
+    needs: [authenticate,build]
     steps:
       - name: Check out code
         uses: actions/checkout@v4

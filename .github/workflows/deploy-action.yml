@@ -24,8 +24,8 @@ jobs:
   authenticate:
      runs-on:  self-hosted
      env:
-      OPENSHIFT_TOKEN: ${{vars.TOKEN}}
-      OPENSHIFT_SERVER: ${{vars.URL}}
+      OPENSHIFT_TOKEN: ${{secrets.TOKEN}}
+      OPENSHIFT_SERVER: ${{secrets.URL}}
      steps:
       - name: Check out code
         uses: actions/checkout@v4
